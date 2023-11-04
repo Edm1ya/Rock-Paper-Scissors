@@ -3,9 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Piedra - Papel - Tijeras</h1>
+        <img id="img-rps" src="images/pngwing.com.png" alt="imagen de piedra, papel o tijeras">
+        <div class="buttons">
+            <button id="rock" disabled>Rock</button>
+            <button id="paper" disabled>Paper</button>
+            <button id="scissors" disabled>Scissors</button>
+        </div>
+        <p id="score">SCORE</p>
+        <div class="score-items">
+            <div class="player">
+                <p>Player</p>
+                <p id="player-points">0</p>
+            </div>
+            <div id="state-game">
+                
+            </div>
+            <div class="computer">
+                <p>Computer</p>
+                <p id="computer-points">0</p>
+            </div>
+        </div>
+        <button class="btn-play">Play</button>
+        <div id="player-round"></div>
+
+        
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

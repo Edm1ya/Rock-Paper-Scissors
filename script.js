@@ -1,87 +1,113 @@
-function getComputerChoice()
-{
-    // devolver aleatoriamente piedra, papel o tijera
-    let selectionRandom = Math.floor(Math.random()*(3));
+const rock = document.querySelector('#rock');
+const paper = document.querySelector('#paper');
+const scissors = document.querySelector('#scissors');
+const btnPlay = document.querySelector(".btn-play");
+const playerPoints = document.querySelector("#player-points");
+const computerPoints = document.querySelector("#computer-points");
+const gameState = document.querySelector('#state-game'); 
+const messageEndGame = document.createElement('p');
+const round = document.querySelector('#player-round')
+
+let playerScore = 0;
+let computerScore = 0;
+
+rock.addEventListener('click', () => {
+    const cumputerSelection = getComputerChoice()
+    playRound(cumputerSelection, rock.textContent)
+});
+
+paper.addEventListener('click', () => {
+    const cumputerSelection = getComputerChoice()
+    playRound(cumputerSelection, paper.textContent)
+});
+
+scissors.addEventListener('click', () => {
+    const cumputerSelection = getComputerChoice()
+    playRound(cumputerSelection, scissors.textContent)
+});
+
+btnPlay.addEventListener('click',()=> {
+    rock.disabled = false;
+    paper.disabled = false;
+    scissors.disabled = false;
+    cleanScore();
+})
+
+// devolver aleatoriamente piedra, papel o tijera
+function getComputerChoice() {
     let options = ["Rock", "Paper", "Scissors"];
+    return options[Math.floor(Math.random() * (3))];
+};
 
-    return options[selectionRandom]
+function deactivateButtons(){
+    rock.disabled =true;
+    paper.disabled =true;
+    scissors.disabled =true;
+};
+
+function cleanScore(){
+    playerPoints.textContent = "0";
+    computerPoints.textContent = "0";
+    round.textContent = "";
+    messageEndGame.textContent = "";
+    playerScore = 0;
+    computerScore = 0;
 }
 
-function playRound(computerSelection, playerSelection){
-    computerS = computerSelection.toUpperCase()
-    playerS = playerSelection.toUpperCase()
-
+function playRound(computerSelection, playerSelection) {
+    computerS = computerSelection.toUpperCase();
+    playerS = playerSelection.toUpperCase();
     let result;
 
-    if (computerS === "ROCK" && playerS === "PAPER")
-    {
-        console.log("Ganaste , Paper beast Rock");
+    const p = document.createElement('p');
+    p.classList.add('result-roud');
+
+    if (computerS === "ROCK" && playerS === "PAPER") {
+        p.textContent = "Ganaste , Paper beast Rock"
+        playerScore += 1;
         result = "win";
-    }else if (computerS === "PAPER" && playerS === "SCISSORS")
-    {
-        console.log("Ganaste , Scissors beast Paper");
+    } else if (computerS === "PAPER" && playerS === "SCISSORS") {
+        p.textContent = "Ganaste ,Scissors beast Paper"
+        playerScore += 1;
         result = "win";
-    }else if (computerS === "SCISSORS" && playerS === "ROCK")
-    {
-        console.log("Ganaste , Rock beast Scissors");
+    } else if (computerS === "SCISSORS" && playerS === "ROCK") {
+        p.textContent = "Ganaste , Rock beast Scissors"
+        playerScore += 1;
         result = "win";
-    }else if (computerS === "PAPER" && playerS === "ROCK")
-    {
-        console.log("Perdiste , Paper beast Rock");
+    } else if (computerS === "PAPER" && playerS === "ROCK") {
+        p.textContent = "Perdiste , Paper beast Rock"
+        computerScore += 1;
         result = "lose";
-    }else if (computerS === "SCISSORS" && playerS === "PAPER")
-    {
-        console.log("Perdiste , Scissors  beast Paper");
+    } else if (computerS === "SCISSORS" && playerS === "PAPER") {
+        p.textContent = "Perdiste , Scissors  beast Paper"
+        computerScore += 1;
         result = "lose";
-    }else if (computerS === "ROCK" && playerS === "SCISSORS")
-    {
-        console.log("Perdiste , Rock beast Scissors");
+    } else if (computerS === "ROCK" && playerS === "SCISSORS") {
+        p.textContent = "Perdiste , Rock beast Scissors"
+        computerScore += 1;
         result = "lose";
-    }else if (computerS === playerS)
-    {
-        console.log("Es un empate, ambos sacaron " + computerS);
+    } else if (computerS === playerS) {
+        p.textContent = "Es un empate, ambos sacaron " + computerS;
         result = "tie";;
-    }else{
-        console.log("No colocaste el valor correcto :(")
-    }
+    };
+    playerPoints.textContent = playerScore;
+    computerPoints.textContent = computerScore;
+    round.appendChild(p);
+    gameOver();
     return result;
-}
+};
 
-function game(){
-
-    let win= 0, lose = 0, tie = 0;
-    let result;
-    for(let i = 0; i < 5; i++)
+function gameOver() {
+    if (playerScore == 5)
     {
-        let computerSelection = getComputerChoice()
-        let playerSelection = prompt("Introduzca su opcion de Rock, Paper o Scissors")
-        result = playRound(computerSelection,playerSelection)
-
-        if(result === "win")
-        {
-            win+= 1;
-        }else if(result == "lose")
-        {
-            lose += 1;
-        }else if(result == "tie")
-        {
-            tie += 1;
-        }
-    }
-
-    if ( win > lose && win > tie)
+        messageEndGame.textContent = "Has Ganado"
+        gameState.appendChild(messageEndGame);
+        deactivateButtons();
+        return
+    }else if (computerScore == 5)
     {
-        console.log('Haz Ganado el juego, Wins '+ win +' Lose: '+ lose + ' Tie: '+ tie)
+        messageEndGame.textContent = "Has Perdido F"
+        gameState.appendChild(messageEndGame);
+        deactivateButtons();
     }
-    else if (lose > win)
-    {
-        console.log('Haz Perdido el juego, Wins '+ win +' Lose: '+ lose + ' Tie: '+ tie)
-    }
-    else if (win === lose)
-    {
-        console.log('Ha quedado empate el juego, Wins '+ win+' Lose: '+ lose+ ' Tie: '+ tie)
-    }
-}
-
-game()
-
+};
